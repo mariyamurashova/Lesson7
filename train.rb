@@ -25,8 +25,8 @@ class Train
 
 
   def train_carriage_print (block_train)
-    @train_carriage.each.with_index do |i, index| 
-      block_train.call(index,i)
+    @train_carriage.each.with_index do |carriage, index| 
+      block_train.call(index,carriage)
     end
   end
 
