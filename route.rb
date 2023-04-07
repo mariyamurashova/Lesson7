@@ -1,6 +1,5 @@
 class Route
 include InstanceCounter
-include InstanceCounter
 include Validation
 attr_accessor :stations
  Route.set_instances
