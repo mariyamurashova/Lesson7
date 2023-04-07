@@ -12,11 +12,12 @@ require_relative 'cargo_carriage'
 class Menu 
 
   block = lambda {|x, y| puts "Свободно #{x-y}"} 
-  @@block_train = Proc.new do|index,i| puts "#{index}-вагон:#{i.type}"
-        puts "Всего #{i.full_carriage_value}"
-        puts "Занято #{i.taken}"
-        i.free_seats_volume(block)
+  @@block_train = Proc.new do|index,carriage| puts "#{index}-вагон:#{carriage.type}"
+        puts "Всего #{carriage.full_carriage_value}"
+        puts "Занято #{carriage.taken}"
+        carriage.free_seats_volume(block)
   end
+  @@block_station = Proc.new {|train, index| puts "#{index} - #{train.number}:#{train.train_type}"}
 
   def initialize
     @stations = []
@@ -26,7 +27,7 @@ class Menu
 
   def train_information
     puts "Выберите поезд"
-    @stations[@num_stat].show_train_list
+    @stations[@num_stat].trains_list(@@block_station)
     @num_train=gets.chomp.to_i
     print_carriages  
   end
@@ -48,7 +49,7 @@ class Menu
    def trains_on_station
     choose_station
     puts "Сейчас на станции находятся следующие поезда:"
-    @stations[@num_stat].show_train_list
+    @stations[@num_stat].trains_list(@@block_station)
     puts "Всего #{@stations[@num_stat].total_trains_number} поезда"
   end
 
@@ -262,7 +263,6 @@ def create_cargo_carriage
   end
 
   def choose_route
-    puts "Всего маршрутов:#{Route.instances}"
     new_routes_list  
     @num_route = gets.chomp.to_i
   end
