@@ -20,6 +20,10 @@ class Station
     validation! 
     @@stations << self   
   end
+
+  def trains_list (block_station)
+  @trains_on_station.each_with_index {|train, index| block_station.call(train, index)}
+  end
    
   def come_in_trains(train)
     @trains_on_station << train
